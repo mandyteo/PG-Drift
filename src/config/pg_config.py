@@ -1,7 +1,7 @@
 from __future__ import annotations
 import logging
 from typing import List
-from ..utils import mask_string
+from utils.mask_string import mask_string
 
 import os
 

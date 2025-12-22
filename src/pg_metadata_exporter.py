@@ -61,7 +61,7 @@ class PgMetadataExporter:
         """Export PostgreSQL metadata to a JSON file. Returns the path to the exported file."""
         conn = None
         cursor = None
-        logger.info("Starting metadata export for database: %s", config.config_info(config.database))
+        logger.info("Starting metadata export for database: %s", config.config_info())
         try:
             
             conn = psycopg.connect(
@@ -69,9 +69,9 @@ class PgMetadataExporter:
                 port=config.port,
                 user=config.user,
                 password=config.password,
-                database=config.database
+                dbname=config.database
             )
-            logger.debug("Database connection established; %s", config.config_info(config.database))
+            logger.debug("Database connection established; %s", config.config_info())
 
             cursor = conn.cursor(row_factory=psycopg.rows.dict_row)
             logger.debug("Created cursor with dict_row")

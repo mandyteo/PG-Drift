@@ -1,13 +1,16 @@
 import datetime
 import os
 import logging
-from .config.pg_config import PgConfig
-from .pg_metadata_exporter import PgMetadataExporter
+from pathlib import Path
+from config.pg_config import PgConfig
+from pg_metadata_exporter import PgMetadataExporter
 
 logger = logging.getLogger(__name__)
 
 def main():
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+    log_dir = Path("pgdrift-logs")
+    log_dir.mkdir(parents=True, exist_ok=True)
     logging.basicConfig(
         filename=f"pgdrift-logs/pgdrift-{timestamp}.log",
         level=logging.DEBUG,
