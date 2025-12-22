@@ -1,7 +1,6 @@
 import datetime
 import os
 import logging
-import sys
 from .config.pg_config import PgConfig
 from .pg_metadata_exporter import PgMetadataExporter
 
@@ -23,9 +22,9 @@ def main():
     for idx, config in enumerate(configs, start=1):
         exporter = PgMetadataExporter(folder_path=target_folder, prefix_name=f"db_{idx}")
         try:
-            filepath = exporter.export_metadata(config)
+            filepath = exporter.export(config)
             success += 1
-            logger.debug("Exported metadata for database.\n%s\nOutput Path: %s", config.config_info, filepath)
+            logger.debug("Exported metadata for database.\n%s\nOutput Path: %s", config.config_info(), filepath)
         except Exception as e:
             failures += 1
             logger.error("Failed to export metadata for database.\n%s\n%s", config.config_info(), e)
