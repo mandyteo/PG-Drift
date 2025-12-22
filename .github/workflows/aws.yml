@@ -23,13 +23,12 @@ jobs:
           python-version: "3.9.23"
 
       - name: Install dependencies
-        working-directory: src
         run: |
+          ls
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Execute Script
-        working-directory: src
         env:
           DB_COUNT: ${{ vars.DB_COUNT }}
           PG_DRIFT_DB_HOST_1: ${{ secrets.PG_DRIFT_DB_HOST_1 }}
