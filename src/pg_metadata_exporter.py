@@ -1,7 +1,6 @@
 from __future__ import annotations
 import json
 import logging
-import sys
 from datetime import datetime
 from pathlib import Path
 import psycopg
@@ -9,12 +8,6 @@ from config.pg_config import PgConfig
 
 # Module logger configuration (verbose to console)
 logger = logging.getLogger(__name__)
-if not logger.handlers:
-    stream_handler = logging.StreamHandler(sys.stdout)
-    formatter = logging.Formatter('%(asctime)s %(levelname)s %(name)s - %(message)s')
-    stream_handler.setFormatter(formatter)
-    logger.addHandler(stream_handler)
-logger.setLevel(logging.DEBUG)
 
 class PgMetadataExporter:
     def __init__(self, folder_path: str, prefix_name: str):
