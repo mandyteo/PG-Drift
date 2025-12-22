@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List
+from ..utils import mask_string
 
 import os
 
@@ -26,3 +27,6 @@ class PgConfig:
             config = PgConfig(host, port, user, password, database)
             configs.append(config)
         return configs
+    
+    def config_info(self) -> str:
+        return f"Host: {mask_string(self.host)}, Port: {self.port}, User: {self.user}, Database: {self.database}"
