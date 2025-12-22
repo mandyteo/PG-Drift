@@ -44,7 +44,7 @@ jobs:
           PG_DRIFT_DB_USER_2: ${{ secrets.PG_DRIFT_DB_USER_2 }}
           PG_DRIFT_DB_PASSWORD_2: ${{ secrets.PG_DRIFT_DB_PASSWORD_2 }}
           PG_DRIFT_DB_NAME_2: ${{ vars.PG_DRIFT_DB_NAME_2 }}
-          PG_DRIFT_TARGET_FOLDER: ${{ secrets.PG_DRIFT_TARGET_FOLDER }}
+          PG_DRIFT_TARGET_FOLDER: ${{ vars.PG_DRIFT_TARGET_FOLDER }}
         run: python main.py
         
       - name: Configure AWS OIDC
