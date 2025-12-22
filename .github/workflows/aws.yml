@@ -23,7 +23,7 @@ jobs:
           python-version: "3.9.23"
           cache: "pip"
           cache-dependency-path: |
-            src/requirements.txt
+            requirements.txt
 
       - name: Install dependencies
         run: |
