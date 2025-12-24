@@ -6,6 +6,7 @@ from pathlib import Path
 from config.pg_config import PgConfig
 from pg_metadata_exporter import PgMetadataExporter
 from pg_metadata_result import PgMetadataResult
+from pg_metadata_diff_results import PgMetadataDiffResults
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +31,6 @@ def main():
         try:
             filepath = exporter.export(config)
             
-            # Calculate checksum of the exported file
             with open(filepath, 'rb') as f:
                 file_hash = hashlib.sha256(f.read()).hexdigest()
 
@@ -48,6 +48,22 @@ def main():
     logger.info("Completed metadata export: %d successes, %d failures", success, failures)
     
     PgMetadataResult.output_tabulation_table(results, target_folder, timestamp)
+    
+    if len(results) > 1:
+        checksums = [result.checksum for result in results]
+        if len(set(checksums)) > 1:
+            logger.info("Detected schema differences, generating detailed diff report")
+            
+            metadata_files = []
+            for idx, result in enumerate(results, start=1):
+                label = PgMetadataResult._db_label(result, idx)
+                metadata_files.append((label, result.metadata_filepath, result.pg_config))
+            
+            diff_analyzer = PgMetadataDiffResults(metadata_files)
+            diff_analyzer.generate_diff_report(target_folder, timestamp)
+        else:
+            logger.info("All databases have identical checksums - skipping diff report")
+            print("\n✓ All databases are identical - no schema differences detected")
 
 
 if __name__ == "__main__":
